@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CafeConnect - Discover Cafés, Reserve with Ease</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --primary-pink: #f4e6e1;
+            --accent-green: #2d5a3d;
+            --text-dark: #2c2c2c;
+            --text-light: #6b7280;
+            --white: #ffffff;
+        }
+        
+        body {
+            background-color: var(--primary-pink);
+            color: var(--text-dark);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        .hero-text {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            line-height: 1.1;
+            font-weight: 300;
+            letter-spacing: -0.02em;
+        }
+        
+        .btn-primary {
+            background-color: var(--accent-green);
+            color: var(--white);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-primary:hover {
+            background-color: #1f3d2a;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--accent-green);
+            padding: 1rem 2rem;
+            border: 2px solid var(--accent-green);
+            border-radius: 50px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--accent-green);
+            color: var(--white);
+        }
+        
+        .card {
+            background-color: var(--white);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .nav-link {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: var(--accent-green);
+        }
+        
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background-color: var(--accent-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Creative logo with coffee cup and connection elements */
+        .creative-logo {
+            position: relative;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--accent-green) 0%, #4a7c59 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(45, 90, 61, 0.3);
+        }
+        
+        .creative-logo::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            right: -3px;
+            width: 12px;
+            height: 12px;
+            background-color: #ff6b6b;
+            border-radius: 50%;
+            border: 2px solid var(--white);
+        }
+        
+        .creative-logo::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: -2px;
+            width: 8px;
+            height: 8px;
+            background-color: #ffd93d;
+            border-radius: 50%;
+            border: 1px solid var(--white);
+        }
+
+        /* Stats counter animation */
+        .stats-card {
+            background: linear-gradient(135deg, var(--white) 0%, #f8f9fa 100%);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .stats-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+        }
+        
+        .stats-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-green);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Testimonial cards styling */
+        .testimonial-card {
+            background-color: var(--white);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .testimonial-card::before {
+            content: '"';
+            position: absolute;
+            top: 1rem;
+            left: 1.5rem;
+            font-size: 4rem;
+            color: var(--accent-green);
+            opacity: 0.2;
+            font-family: serif;
+        }
+
+        /* Process steps styling */
+        .process-step {
+            position: relative;
+            text-align: center;
+        }
+        
+        .process-step::after {
+            content: '';
+            position: absolute;
+            top: 30px;
+            right: -50%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-green) 0%, transparent 100%);
+        }
+        
+        .process-step:last-child::after {
+            display: none;
+        }
+        
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--accent-green) 0%, #4a7c59 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: white;
+            font-weight: bold;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 15px rgba(45, 90, 61, 0.3);
+        }
+
+        /* Mobile navigation styles */
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            width: 100%;
+            background-color: var(--white);
+            position: absolute;
+            top: 100%;
+            left: 0;
+            padding: 1rem 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+
+        .mobile-menu.active {
+            display: flex;
+        }
+
+        .mobile-menu a, .mobile-menu button {
+            padding: 0.75rem 1.5rem;
+            text-align: center;
+            width: 100%;
+        }
+        /* </CHANGE> */
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="relative flex items-center justify-between p-6 lg:px-12">
+        <!-- New dark green coffee cup logo design -->
+        <div class="flex items-center space-x-3">
+            <div class="relative">
+                <!-- Dark green coffee cup logo with connection elements -->
+                <div class="w-14 h-14 bg-gradient-to-br from-green-800 to-green-900 rounded-2xl flex items-center justify-center shadow-xl border-4 border-white relative overflow-visible">
+                    <!-- Cup body -->
+                    <div class="relative">
+                        <!-- Cup body -->
+                        <div class="w-8 h-8 bg-gradient-to-b from-green-700 to-green-800 rounded-b-lg border-2 border-green-600 relative">
+                            <!-- Coffee liquid inside -->
+                            <div class="absolute top-1 left-1 right-1 h-4 bg-gradient-to-b from-amber-800 to-amber-900 rounded-t-sm"></div>
+                            <!-- Coffee foam/cream on top -->
+                            <div class="absolute top-0.5 left-1 right-1 h-1.5 bg-gradient-to-b from-amber-100 to-amber-200 rounded-t-sm opacity-80"></div>
+                        </div>
+                        <!-- Cup handle -->
+                        <div class="absolute top-2 -right-2 w-3 h-4 border-2 border-green-700 rounded-r-full bg-transparent"></div>
+                        <!-- Steam lines -->
+                        <div class="absolute -top-2 left-2 w-0.5 h-3 bg-white opacity-60 rounded-full animate-pulse"></div>
+                        <div class="absolute -top-1.5 left-3 w-0.5 h-2 bg-white opacity-40 rounded-full animate-pulse" style="animation-delay: 0.5s;"></div>
+                        <div class="absolute -top-2.5 left-4 w-0.5 h-3 bg-white opacity-50 rounded-full animate-pulse" style="animation-delay: 1s;"></div>
+                    </div>
+                    
+                    <!-- Connection network dots around the cup -->
+                    <div class="absolute -top-2 -right-2 w-4 h-4 bg-pink-400 rounded-full border-2 border-white shadow-lg animate-pulse"></div>
+                    <div class="absolute -bottom-2 -left-2 w-3 h-3 bg-blue-400 rounded-full border-2 border-white shadow-md"></div>
+                    <div class="absolute top-1/2 -left-3 w-2.5 h-2.5 bg-orange-400 rounded-full border border-white shadow-sm"></div>
+                    
+                    <!-- Connection lines -->
+                    <div class="absolute top-0 right-0 w-6 h-0.5 bg-pink-300 transform rotate-45 origin-left opacity-60"></div>
+                    <div class="absolute bottom-0 left-0 w-5 h-0.5 bg-blue-300 transform -rotate-45 origin-left opacity-60"></div>
+                </div>
+            </div>
+            <span class="text-2xl font-bold text-green-800">CafeConnect</span>
+        </div>
+        
+        <!-- Hamburger menu for mobile </CHANGE> -->
+        <div class="md:hidden">
+            <button id="mobile-menu-button" class="text-gray-700 focus:outline-none">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Properly structured navigation menu -->
+        <div class="hidden md:flex items-center space-x-8">
+            <!-- Fixed home link to point to index.html instead of # -->
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="cafes.html" class="nav-link">Cafés</a>
+            <a href="about.html" class="nav-link">About Us</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+        </div>
+        
+        <!-- Properly aligned login/signup buttons -->
+        <div class="hidden md:flex items-center space-x-4">
+            <!-- Updated login link to point to login.html -->
+            <a href="login.html" class="nav-link">Login</a>
+            <button class="btn-primary" onclick="window.location.href='login.html'">Sign Up</button>
+        </div>
+
+        <!-- Mobile menu content </CHANGE> -->
+        <div id="mobile-menu" class="mobile-menu md:hidden">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="cafes.html" class="nav-link">Cafés</a>
+            <a href="about.html" class="nav-link">About Us</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+            <a href="login.html" class="nav-link">Login</a>
+            <button class="btn-primary mx-4 mt-2" onclick="window.location.href='login.html'">Sign Up</button>
+        </div>
+        <!-- </CHANGE> -->
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="px-6 lg:px-12 py-20">
+        <div class="max-w-7xl mx-auto">
+            <!-- Responsive grid for hero section </CHANGE> -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h1 class="hero-text text-balance mb-6">
+                        Discover Cafés,<br>
+                        Reserve with<br>
+                        <span class="text-green-800">Ease</span>
+                    </h1>
+                    <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+                        Your one-stop platform to explore a wide variety of cafés all in one place. 
+                        Browse curated listings, check menus, reviews, and make hassle-free reservations 
+                        in just a few clicks.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button class="btn-primary">Explore Cafés</button>
+                        <button class="btn-secondary">How It Works</button>
+                    </div>
+                </div>
+                
+                <div class="relative">
+                    <!-- Enhanced café image with better query for more appealing photo -->
+                    <div class="card">
+                        <img src="https://i.pinimg.com/1200x/71/61/37/7161378aac840a72cab4ab3fc324a6d5.jpg" 
+                             alt="Cozy café interior with warm lighting and comfortable seating" 
+                             class="w-full h-80 object-cover rounded-lg mb-4">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h3 class="font-semibold text-lg">Perfect Café Awaits</h3>
+                                <p class="text-gray-600">Find Your Spot • Book Instantly</p>
+                            </div>
+                             <a href="cafes.html" class="btn-primary text-sm px-4 py-2 no-underline">Reserve</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- </CHANGE> -->
+        </div>
+    </section>
+
+    <!-- Added new stats section for credibility -->
+    <section class="px-6 lg:px-12 py-16">
+        <div class="max-w-7xl mx-auto">
+            <!-- Responsive grid for stats section </CHANGE> -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+                <div class="stats-card">
+                    <div class="stats-number">500+</div>
+                    <p class="text-gray-600 font-medium">Partner Cafés</p>
+                </div>
+                <div class="stats-card">
+                    <div class="stats-number">50K+</div>
+                    <p class="text-gray-600 font-medium">Happy Customers</p>
+                </div>
+                <div class="stats-card">
+                    <div class="stats-number">100K+</div>
+                    <p class="text-gray-600 font-medium">Reservations Made</p>
+                </div>
+                <div class="stats-card">
+                    <div class="stats-number">4.9★</div>
+                    <p class="text-gray-600 font-medium">Average Rating</p>
+                </div>
+            </div>
+            <!-- </CHANGE> -->
+        </div>
+    </section>
+
+    <!-- Added how it works process section -->
+    <section class="px-6 lg:px-12 py-20 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-light mb-4">How CafeConnect Works</h2>
+                <p class="text-xl text-gray-600">Simple steps to your perfect café experience</p>
+            </div>
+            
+            <!-- Responsive grid for process section </CHANGE> -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div class="process-step">
+                    <div class="step-number">1</div>
+                    <h3 class="text-xl font-semibold mb-3">Browse & Discover</h3>
+                    <p class="text-gray-600">Explore our curated collection of cafés with detailed photos, menus, and authentic reviews from fellow café lovers.</p>
+                </div>
+                
+                <div class="process-step">
+                    <div class="step-number">2</div>
+                    <h3 class="text-xl font-semibold mb-3">Choose & Reserve</h3>
+                    <p class="text-gray-600">Select your preferred date, time, and party size. Our real-time availability system ensures instant confirmation.</p>
+                </div>
+                
+                <div class="process-step">
+                    <div class="step-number">3</div>
+                    <h3 class="text-xl font-semibold mb-3">Arrive & Enjoy</h3>
+                    <p class="text-gray-600">Show up and enjoy your reserved spot. Rate your experience to help other café enthusiasts discover great places.</p>
+                </div>
+            </div>
+            <!-- </CHANGE> -->
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="px-6 lg:px-12 py-20">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-light mb-4">Why Choose CafeConnect?</h2>
+                <p class="text-xl text-gray-600">Finding and booking your next café experience has never been simpler</p>
+            </div>
+            
+            <!-- Responsive grid for features section </CHANGE> -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="feature-icon mx-auto">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Discover</h3>
+                    <p class="text-gray-600">Browse through curated café listings with detailed information about ambiance, menu, and reviews.</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="feature-icon mx-auto">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Reserve</h3>
+                    <p class="text-gray-600">Make hassle-free reservations in just a few clicks. Check availability and secure your spot instantly.</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="feature-icon mx-auto">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Enjoy</h3>
+                    <p class="text-gray-600">Whether it's work, friends, or special occasions, find the perfect café for every moment.</p>
+                </div>
+            </div>
+            <!-- </CHANGE> -->
+        </div>
+    </section>
+
+    <!-- Added testimonials section for social proof -->
+    <section class="px-6 lg:px-12 py-20 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-light mb-4">What Our Users Say</h2>
+                <p class="text-xl text-gray-600">Real experiences from café lovers like you</p>
+            </div>
+            
+            <!-- Responsive grid for testimonials section </CHANGE> -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="testimonial-card">
+                    <p class="text-gray-700 mb-4 leading-relaxed">CafeConnect made finding the perfect study spot so easy! I love how I can see real photos and reviews before booking.</p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-3">
+                            <span class="text-green-800 font-semibold">S</span>
+                        </div>
+                        <div>
+                            <p class="font-semibold">Sarah Chen</p>
+                            <p class="text-gray-600 text-sm">Student</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <p class="text-gray-700 mb-4 leading-relaxed">As a remote worker, I need reliable café spots. CafeConnect's detailed info about WiFi and noise levels is a game-changer!</p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-3">
+                            <span class="text-green-800 font-semibold">M</span>
+                        </div>
+                        <div>
+                            <p class="font-semibold">Marcus Johnson</p>
+                            <p class="text-gray-600 text-sm">Digital Nomad</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <p class="text-gray-700 mb-4 leading-relaxed">Planning date nights is so much easier now. We discovered amazing hidden gems through CafeConnect that we never would have found!</p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-3">
+                            <span class="text-green-800 font-semibold">E</span>
+                        </div>
+                        <div>
+                            <p class="font-semibold">Emma Rodriguez</p>
+                            <p class="text-gray-600 text-sm">Food Enthusiast</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- </CHANGE> -->
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="px-6 lg:px-12 py-20">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="card">
+                <h2 class="text-3xl font-light mb-4">Ready to discover your next favorite café?</h2>
+                <p class="text-xl text-gray-600 mb-8">Join thousands of café lovers who trust CafeConnect for their perfect café experience.</p>
+                <button class="btn-primary text-lg px-8 py-4">Get Started Today</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="px-6 lg:px-12 py-12 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <!-- Responsive grid for footer </CHANGE> -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+                <div>
+                    <!-- Updated footer logo to match new coffee cup design -->
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="relative">
+                            <div class="w-10 h-10 bg-gradient-to-br from-green-800 to-green-900 rounded-xl flex items-center justify-center shadow-lg border-2 border-white relative overflow-visible">
+                                <div class="relative">
+                                    <!-- Smaller cup body for footer -->
+                                    <div class="w-6 h-6 bg-gradient-to-b from-green-700 to-green-800 rounded-b-md border border-green-600 relative">
+                                        <!-- Coffee liquid inside -->
+                                        <div class="absolute top-0.5 left-0.5 right-0.5 h-3 bg-gradient-to-b from-amber-800 to-amber-900 rounded-t-sm"></div>
+                                        <!-- Coffee foam on top -->
+                                        <div class="absolute top-0 left-0.5 right-0.5 h-1 bg-gradient-to-b from-amber-100 to-amber-200 rounded-t-sm opacity-80"></div>
+                                    </div>
+                                    <!-- Cup handle -->
+                                    <div class="absolute top-1.5 -right-1.5 w-2 h-3 border border-green-700 rounded-r-full bg-transparent"></div>
+                                </div>
+                                <div class="absolute -top-1 -right-1 w-3 h-3 bg-pink-400 rounded-full border border-white"></div>
+                                <div class="absolute -bottom-1 -left-1 w-2 h-2 bg-blue-400 rounded-full border border-white"></div>
+                            </div>
+                        </div>
+                        <span class="text-xl font-bold text-green-800">CafeConnect</span>
+                    </div>
+                    <p class="text-gray-600">Connecting you with the perfect café experience, one reservation at a time.</p>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <!-- Fixed home link to point to index.html instead of # -->
+                        <li><a href="index.html" class="text-gray-600 hover:text-green-800">Home</a></li>
+                        <li><a href="cafes.html" class="text-gray-600 hover:text-green-800">Cafés</a></li>
+                        <li><a href="about.html" class="text-gray-600 hover:text-green-800">About Us</a></li>
+                        <li><a href="contact.html" class="text-gray-600 hover:text-green-800">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Support</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-600 hover:text-green-800">Help Center</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-green-800">Terms of Service</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-green-800">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Connect</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-600 hover:text-green-800">Facebook</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-green-800">Instagram</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-green-800">Twitter</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- </CHANGE> -->
+            
+            <div class="border-t border-gray-200 mt-8 pt-8 text-center">
+                <p class="text-gray-600">&copy; 2025 CafeConnect. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript for mobile menu toggle </CHANGE> -->
+    <script>
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('active');
+        });
+    </script>
+    <!-- </CHANGE> -->
+</body>
+</html>

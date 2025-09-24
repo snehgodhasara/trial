@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cafes in Rajkot - CafeConnect</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Using exact same styles as homepage -->
+    <style>
+        :root {
+            --primary-pink: #f4e6e1;
+            --accent-green: #2d5a3d;
+            --text-dark: #2c2c2c;
+            --text-light: #6b7280;
+            --white: #ffffff;
+        }
+        
+        body {
+            background-color: var(--primary-pink);
+            color: var(--text-dark);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        .hero-text {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            line-height: 1.1;
+            font-weight: 300;
+            letter-spacing: -0.02em;
+        }
+        
+        .btn-primary {
+            background-color: var(--accent-green);
+            color: var(--white);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-primary:hover {
+            background-color: #1f3d2a;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--accent-green);
+            padding: 1rem 2rem;
+            border: 2px solid var(--accent-green);
+            border-radius: 50px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--accent-green);
+            color: var(--white);
+        }
+        
+        .card {
+            background-color: var(--white);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .nav-link {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: var(--accent-green);
+        }
+        
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background-color: var(--accent-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Creative logo with coffee cup and connection elements */
+        .creative-logo {
+            position: relative;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--accent-green) 0%, #4a7c59 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(45, 90, 61, 0.3);
+        }
+        
+        .creative-logo::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            right: -3px;
+            width: 12px;
+            height: 12px;
+            background-color: #ff6b6b;
+            border-radius: 50%;
+            border: 2px solid var(--white);
+        }
+        
+        .creative-logo::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: -2px;
+            width: 8px;
+            height: 8px;
+            background-color: #ffd93d;
+            border-radius: 50%;
+            border: 1px solid var(--white);
+        }
+
+        /* Cafe-specific styles */
+        .cafe-card {
+            background-color: var(--white);
+            border-radius: 20px;
+            padding: 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .cafe-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .rating-stars {
+            color: #fbbf24;
+        }
+        
+        .filter-btn {
+            background-color: var(--white);
+            color: var(--text-dark);
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        
+        .filter-btn:hover {
+            background-color: var(--accent-green);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+        
+        .filter-btn.active {
+            background-color: var(--accent-green);
+            color: var(--white);
+            border-color: var(--accent-green);
+        }
+        /* Added mobile navigation styles */
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            width: 100%;
+            background-color: var(--white);
+            position: absolute;
+            top: 100%;
+            left: 0;
+            padding: 1rem 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+
+        .mobile-menu.active {
+            display: flex;
+        }
+
+        .mobile-menu a, .mobile-menu button {
+            padding: 0.75rem 1.5rem;
+            text-align: center;
+            width: 100%;
+        }
+        /* </CHANGE> */
+    </style>
+</head>
+<body>
+    <!-- Using exact same navigation as homepage -->
+    <nav class="relative flex items-center justify-between p-6 lg:px-12">
+        <!-- Dark green coffee cup logo design -->
+        <div class="flex items-center space-x-3">
+            <div class="relative">
+                <!-- Dark green coffee cup logo with connection elements -->
+                <div class="w-14 h-14 bg-gradient-to-br from-green-800 to-green-900 rounded-2xl flex items-center justify-center shadow-xl border-4 border-white relative overflow-visible">
+                    <!-- Cup body -->
+                    <div class="relative">
+                        <!-- Cup body -->
+                        <div class="w-8 h-8 bg-gradient-to-b from-green-700 to-green-800 rounded-b-lg border-2 border-green-600 relative">
+                            <!-- Coffee liquid inside -->
+                            <div class="absolute top-1 left-1 right-1 h-4 bg-gradient-to-b from-amber-800 to-amber-900 rounded-t-sm"></div>
+                            <!-- Coffee foam/cream on top -->
+                            <div class="absolute top-0.5 left-1 right-1 h-1.5 bg-gradient-to-b from-amber-100 to-amber-200 rounded-t-sm opacity-80"></div>
+                        </div>
+                        <!-- Cup handle -->
+                        <div class="absolute top-2 -right-2 w-3 h-4 border-2 border-green-700 rounded-r-full bg-transparent"></div>
+                        <!-- Steam lines -->
+                        <div class="absolute -top-2 left-2 w-0.5 h-3 bg-white opacity-60 rounded-full animate-pulse"></div>
+                        <div class="absolute -top-1.5 left-3 w-0.5 h-2 bg-white opacity-40 rounded-full animate-pulse" style="animation-delay: 0.5s;"></div>
+                        <div class="absolute -top-2.5 left-4 w-0.5 h-3 bg-white opacity-50 rounded-full animate-pulse" style="animation-delay: 1s;"></div>
+                    </div>
+                    
+                    <!-- Connection network dots around the cup -->
+                    <div class="absolute -top-2 -right-2 w-4 h-4 bg-pink-400 rounded-full border-2 border-white shadow-lg animate-pulse"></div>
+                    <div class="absolute -bottom-2 -left-2 w-3 h-3 bg-blue-400 rounded-full border-2 border-white shadow-md"></div>
+                    <div class="absolute top-1/2 -left-3 w-2.5 h-2.5 bg-orange-400 rounded-full border border-white shadow-sm"></div>
+                    
+                    <!-- Connection lines -->
+                    <div class="absolute top-0 right-0 w-6 h-0.5 bg-pink-300 transform rotate-45 origin-left opacity-60"></div>
+                    <div class="absolute bottom-0 left-0 w-5 h-0.5 bg-blue-300 transform -rotate-45 origin-left opacity-60"></div>
+                </div>
+            </div>
+            <span class="text-2xl font-bold text-green-800">CafeConnect</span>
+        </div>
+        
+        <!-- Hamburger menu for mobile </CHANGE> -->
+        <div class="md:hidden">
+            <button id="mobile-menu-button" class="text-gray-700 focus:outline-none">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Properly structured navigation menu -->
+        <div class="hidden md:flex items-center space-x-8">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="cafes.html" class="nav-link text-green-800">Cafés</a>
+            <a href="about.html" class="nav-link">About Us</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+        </div>
+        
+        <!-- Properly aligned login/signup buttons -->
+        <div class="hidden md:flex items-center space-x-4">
+            <a href="#" class="nav-link">Login</a>
+            <button class="btn-primary">Sign Up</button>
+        </div>
+
+        <!-- Mobile menu content </CHANGE> -->
+        <div id="mobile-menu" class="mobile-menu md:hidden">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="cafes.html" class="nav-link">Cafés</a>
+            <a href="about.html" class="nav-link">About Us</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+            <a href="login.html" class="nav-link">Login</a>
+            <button class="btn-primary mx-4 mt-2" onclick="window.location.href='login.html'">Sign Up</button>
+        </div>
+        <!-- </CHANGE> -->
+    </nav>
+
+    <!-- Hero section matching homepage style -->
+    <section class="px-6 lg:px-12 py-20">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h1 class="hero-text text-balance mb-6">
+                    Discover Cafés in<br>
+                    <span class="text-green-800">Rajkot</span>
+                </h1>
+                <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+                    Explore the best coffee spots in the heart of Gujarat. From cozy corners to vibrant spaces, 
+                    find your perfect café experience in Rajkot.
+                </p>
+                
+                <!-- Search Bar -->
+                <div class="max-w-2xl mx-auto mb-8">
+                    <div class="relative">
+                        <input type="text" placeholder="Search cafes, cuisines, or locations..." 
+                               class="w-full px-6 py-4 rounded-full text-gray-800 text-lg focus:outline-none focus:ring-4 focus:ring-green-300 border-2 border-gray-200">
+                        <button class="absolute right-2 top-2 btn-primary px-6 py-2 text-sm">
+                            Search
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filters section with homepage styling -->
+    <section class="px-6 lg:px-12 pb-8">
+        <div class="max-w-7xl mx-auto">
+            <!-- Responsive flex wrap for filters </CHANGE> -->
+            <div class="flex flex-wrap gap-4 justify-center">
+                <button class="filter-btn active">All Cafes</button>
+                <button class="filter-btn">Coffee Shops</button>
+                <button class="filter-btn">Bakery Cafes</button>
+                <button class="filter-btn">Rooftop</button>
+                <button class="filter-btn">24/7 Open</button>
+                <button class="filter-btn">Pet Friendly</button>
+            </div>
+            <!-- </CHANGE> -->
+        </div>
+    </section>
+
+    <!-- Cafes grid with homepage card styling -->
+    <section class="px-6 lg:px-12 pb-20">
+        <div class="max-w-7xl mx-auto">
+            <!-- Responsive grid for cafe cards </CHANGE> -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Cafe Card 1 -->
+                <div class="cafe-card">
+                    <div class="h-48 bg-gradient-to-br from-amber-400 to-orange-500 relative">
+                        <div class="absolute inset-0 bg-black/20"></div>
+                        <div class="absolute top-4 right-4 bg-white/90 px-3 py-1 rounded-full text-sm font-medium text-green-800">
+                            Open Now
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-3">
+                            <h3 class="text-xl font-semibold">The Coffee Culture</h3>
+                            <div class="flex items-center">
+                                <span class="rating-stars text-lg">★★★★★</span>
+                                <span class="text-gray-600 text-sm ml-1">(4.8)</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-4">Premium coffee experience with artisanal brews and cozy ambiance. Perfect for work and meetings.</p>
+                        <div class="flex items-center text-sm text-gray-500 mb-4">
+                            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+                            </svg>
+                            Race Course Ring Road, Rajkot
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <!-- Updated booking button to link to booking page -->
+                            <a href="booking.html" class="btn-secondary text-sm px-6 py-2">
+                                Booking & Reservation
+                            </a>
+                            <!-- Updated Reserve Table button to open menu popup -->
+                            <button onclick="openMenu('The Coffee Culture')" class="btn-primary text-sm px-4 py-2">
+                                Menu
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cafe Card 2 -->
+                <div class="cafe-card">
+                    <div class="h-48 bg-gradient-to-br from-pink-400 to-rose-500 relative">
+                        <div class="absolute inset-0 bg-black/20"></div>
+                        <div class="absolute top-4 right-4 bg-white/90 px-3 py-1 rounded-full text-sm font-medium text-green-800">
+                            Open Now
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-3">
+                            <h3 class="text-xl font-semibold">Cafe Mocha</h3>
+                            <div class="flex items-center">
+                                <span class="rating-stars text-lg">★★★★☆</span>
+                                <span class="text-gray-600 text-sm ml-1">(4.5)</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-4">Trendy cafe with Instagram-worthy interiors, specialty coffees, and delicious pastries.</p>
+                        <div class="flex items-center text-sm text-gray-500 mb-4">
+                            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+                            </svg>
+                            Kalawad Road, Rajkot
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <!-- Updated booking button to link to booking page -->
+                            <a href="booking.html" class="btn-secondary text-sm px-6 py-2">
+                                Booking & Reservation
+                            </a>
+                            <!-- Updated Reserve Table button to open menu popup -->
+                            <button onclick="openMenu('Cafe Mocha')" class="btn-primary text-sm px-4 py-2">
+                                Menu
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cafe Card 3 -->
+                <div class="cafe-card">
+                    <div class="h-48 bg-gradient-to-br from-blue-400 to-indigo-500 relative">
+                        <div class="absolute inset-0 bg-black/20"></div>
+                        <div class="absolute top-4 right-4 bg-white/90 px-3 py-1 rounded-full text-sm font-medium text-red-600">
+                            Closes 10 PM
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-3">
+                            <h3 class="text-xl font-semibold">Brew & Bite</h3>
+                            <div class="flex items-center">
+                                <span class="rating-stars text-lg">★★★★★</span>
+                                <span class="text-gray-600 text-sm ml-1">(4.7)</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-4">Family-friendly cafe with outdoor seating, fresh brews, and homemade snacks.</p>
+                        <div class="flex items-center text-sm text-gray-500 mb-4">
+                            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+                            </svg>
+                            University Road, Rajkot
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <!-- Updated booking button to link to booking page -->
+                            <a href="booking.html" class="btn-secondary text-sm px-6 py-2">
+                                Booking & Reservation
+                            </a>
+                            <!-- Updated Reserve Table button to open menu popup -->
+                            <button onclick="openMenu('Brew & Bite')" class="btn-primary text-sm px-4 py-2">
+                                Menu
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cafe Card 4 -->
+                <div class="cafe-card">
+                    <div class="h-48 bg-gradient-to-br from-green-400 to-emerald-500 relative">
+                        <div class="absolute inset-0 bg-black/20"></div>
+                        <div class="absolute top-4 right-4 bg-white/90 px-3 py-1 rounded-full text-sm font-medium text-green-800">
+                            24/7 Open
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-3">
+                            <h3 class="text-xl font-semibold">Midnight Beans</h3>
+                            <div class="flex items-center">
+                                <span class="rating-stars text-lg">★★★★☆</span>
+                                <span class="text-gray-600 text-sm ml-1">(4.3)</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-4">24/7 cafe perfect for late-night study sessions and early morning coffee runs.</p>
+                        <div class="flex items-center text-sm text-gray-500 mb-4">
+                            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+                            </svg>
+                            150 Feet Ring Road, Rajkot
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <!-- Updated booking button to link to booking page -->
+                            <a href="booking.html" class="btn-secondary text-sm px-6 py-2">
+                                Booking & Reservation
+                            </a>
+                            <!-- Updated Reserve Table button to open menu popup -->
+                            <button onclick="openMenu('Midnight Beans')" class="btn-primary text-sm px-4 py-2">
+                                Menu
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cafe Card 5 -->
+                <div class="cafe-card">
+                    <div class="h-48 bg-gradient-to-br from-purple-400 to-pink-500 relative">
+                        <div class="absolute inset-0 bg-black/20"></div>
+                        <div class="absolute top-4 right-4 bg-white/90 px-3 py-1 rounded-full text-sm font-medium text-green-800">
+                            Pet Friendly
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-3">
+                            <h3 class="text-xl font-semibold">Rooftop Cafe</h3>
+                            <div class="flex items-center">
+                                <span class="rating-stars text-lg">★★★★★</span>
+                                <span class="text-gray-600 text-sm ml-1">(4.9)</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-4">Beautiful rooftop setting with city views, craft coffee, and pet-friendly environment.</p>
+                        <div class="flex items-center text-sm text-gray-500 mb-4">
+                            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+                            </svg>
+                            Gondal Road, Rajkot
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <!-- Updated booking button to link to booking page -->
+                            <a href="booking.html" class="btn-secondary text-sm px-6 py-2">
+                                Booking & Reservation
+                            </a>
+                            <!-- Updated Reserve Table button to open menu popup -->
+                            <button onclick="openMenu('Rooftop Cafe')" class="btn-primary text-sm px-4 py-2">
+                                Menu
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cafe Card 6 -->
+                <div class="cafe-card">
+                    <div class="h-48 bg-gradient-to-br from-yellow-400 to-orange-500 relative">
+                        <div class="absolute inset-0 bg-black/20"></div>
+                        <div class="absolute top-4 right-4 bg-white/90 px-3 py-1 rounded-full text-sm font-medium text-green-800">
+                            Open Now
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-3">
+                            <h3 class="text-xl font-semibold">Artisan Bakery Cafe</h3>
+                            <div class="flex items-center">
+                                <span class="rating-stars text-lg">★★★★☆</span>
+                                <span class="text-gray-600 text-sm ml-1">(4.6)</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-4">Fresh baked goods, artisanal coffee, and cozy atmosphere perfect for breakfast meetings.</p>
+                        <div class="flex items-center text-sm text-gray-500 mb-4">
+                            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+                            </svg>
+                            Yagnik Road, Rajkot
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <!-- Updated booking button to link to booking page -->
+                            <a href="booking.html" class="btn-secondary text-sm px-6 py-2">
+                                Booking & Reservation
+                            </a>
+                            <!-- Updated Reserve Table button to open menu popup -->
+                            <button onclick="openMenu('Artisan Bakery Cafe')" class="btn-primary text-sm px-4 py-2">
+                                Menu
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- </CHANGE> -->
+
+            <!-- Load More Button -->
+            <div class="text-center mt-12">
+                <button class="btn-secondary">
+                    Load More Cafes
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Using exact same footer as homepage -->
+    <footer class="px-6 lg:px-12 py-12 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <!-- Responsive grid for footer </CHANGE> -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+                <div>
+                    <!-- Updated footer logo to match new coffee cup design -->
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="relative">
+                            <div class="w-10 h-10 bg-gradient-to-br from-green-800 to-green-900 rounded-xl flex items-center justify-center shadow-lg border-2 border-white relative overflow-visible">
+                                <div class="relative">
+                                    <!-- Smaller cup body for footer -->
+                                    <div class="w-6 h-6 bg-gradient-to-b from-green-700 to-green-800 rounded-b-md border border-green-600 relative">
+                                        <!-- Coffee liquid inside -->
+                                        <div class="absolute top-0.5 left-0.5 right-0.5 h-3 bg-gradient-to-b from-amber-800 to-amber-900 rounded-t-sm"></div>
+                                        <!-- Coffee foam on top -->
+                                        <div class="absolute top-0 left-0.5 right-0.5 h-1 bg-gradient-to-b from-amber-100 to-amber-200 rounded-t-sm opacity-80"></div>
+                                    </div>
+                                    <!-- Cup handle -->
+                                    <div class="absolute top-1.5 -right-1.5 w-2 h-3 border border-green-700 rounded-r-full bg-transparent"></div>
+                                </div>
+                                <div class="absolute -top-1 -right-1 w-3 h-3 bg-pink-400 rounded-full border border-white"></div>
+                                <div class="absolute -bottom-1 -left-1 w-2 h-2 bg-blue-400 rounded-full border border-white"></div>
+                            </div>
+                        </div>
+                        <span class="text-xl font-bold text-green-800">CafeConnect</span>
+                    </div>
+                    <p class="text-gray-600">Connecting you with the perfect café experience, one reservation at a time.</p>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-600 hover:text-green-800">Home</a></li>
+                        <li><a href="cafes.html" class="text-gray-600 hover:text-green-800">Cafés</a></li>
+                        <li><a href="about.html" class="text-gray-600 hover:text-green-800">About Us</a></li>
+                        <li><a href="contact.html" class="text-gray-600 hover:text-green-800">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Support</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-600 hover:text-green-800">Help Center</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-green-800">Terms of Service</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-green-800">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Connect</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-600 hover:text-green-800">Facebook</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-green-800">Instagram</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-green-800">Twitter</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- </CHANGE> -->
+            
+            <div class="border-t border-gray-200 mt-8 pt-8 text-center">
+                <p class="text-gray-600">&copy; 2025 CafeConnect. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Menu Popup Modal -->
+    <div id="menuModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 id="cafeMenuTitle" class="text-2xl font-bold text-green-800"></h2>
+                    <button onclick="closeMenu()" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+                </div>
+                <div id="menuContent" class="space-y-6">
+                    <!-- Menu content will be populated by JavaScript -->
+                </div>
+                <div class="mt-8 text-center">
+                    <button onclick="closeMenu()" class="btn-primary">Close Menu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Menu data for each cafe
+        const cafeMenus = {
+            'The Coffee Culture': {
+                title: 'The Coffee Culture - Premium Menu',
+                categories: [
+                    {
+                        name: 'Signature Coffees',
+                        items: [
+                            { name: 'Ethiopian Single Origin', price: '₹280', description: 'Rich, fruity notes with chocolate undertones' },
+                            { name: 'Colombian Supremo', price: '₹260', description: 'Smooth, well-balanced with caramel sweetness' },
+                            { name: 'Italian Espresso', price: '₹180', description: 'Bold, intense flavor with crema' },
+                            { name: 'Cappuccino Deluxe', price: '₹220', description: 'Perfect foam art with premium beans' }
+                        ]
+                    },
+                    {
+                        name: 'Artisanal Beverages',
+                        items: [
+                            { name: 'Cold Brew Nitro', price: '₹320', description: 'Smooth, creamy nitrogen-infused cold brew' },
+                            { name: 'Matcha Latte Premium', price: '₹290', description: 'Ceremonial grade matcha with oat milk' },
+                            { name: 'Chai Masala Signature', price: '₹160', description: 'House-blend spices with fresh milk' }
+                        ]
+                    },
+                    {
+                        name: 'Gourmet Snacks',
+                        items: [
+                            { name: 'Truffle Croissant', price: '₹240', description: 'Buttery croissant with truffle filling' },
+                            { name: 'Avocado Toast Deluxe', price: '₹280', description: 'Sourdough with premium avocado and herbs' },
+                            { name: 'Artisan Cheese Platter', price: '₹450', description: 'Selection of imported cheeses with crackers' }
+                        ]
+                    }
+                ]
+            },
+            'Cafe Mocha': {
+                title: 'Cafe Mocha - Trendy Treats',
+                categories: [
+                    {
+                        name: 'Instagram Specials',
+                        items: [
+                            { name: 'Rainbow Latte', price: '₹250', description: 'Colorful layered latte perfect for photos' },
+                            { name: 'Unicorn Frappuccino', price: '₹280', description: 'Pink and blue swirled frozen delight' },
+                            { name: 'Galaxy Hot Chocolate', price: '₹220', description: 'Dark chocolate with edible glitter' },
+                            { name: 'Rose Gold Cappuccino', price: '₹240', description: 'Rose-infused cappuccino with gold dust' }
+                        ]
+                    },
+                    {
+                        name: 'Classic Favorites',
+                        items: [
+                            { name: 'Mocha Supreme', price: '₹200', description: 'Rich chocolate and coffee blend' },
+                            { name: 'Vanilla Bean Latte', price: '₹180', description: 'Smooth vanilla with espresso' },
+                            { name: 'Caramel Macchiato', price: '₹190', description: 'Sweet caramel with bold espresso' }
+                        ]
+                    },
+                    {
+                        name: 'Sweet Treats',
+                        items: [
+                            { name: 'Red Velvet Cupcake', price: '₹120', description: 'Moist red velvet with cream cheese frosting' },
+                            { name: 'Chocolate Lava Cake', price: '₹160', description: 'Warm cake with molten chocolate center' },
+                            { name: 'Macarons (Set of 6)', price: '₹300', description: 'Assorted flavored French macarons' }
+                        ]
+                    }
+                ]
+            },
+            'Brew & Bite': {
+                title: 'Brew & Bite - Family Favorites',
+                categories: [
+                    {
+                        name: 'Fresh Brews',
+                        items: [
+                            { name: 'House Blend Coffee', price: '₹140', description: 'Our signature medium roast blend' },
+                            { name: 'French Press Coffee', price: '₹160', description: 'Full-bodied coffee brewed to perfection' },
+                            { name: 'Iced Coffee Classic', price: '₹120', description: 'Refreshing cold coffee with ice' },
+                            { name: 'Espresso Double Shot', price: '₹100', description: 'Strong and bold espresso' }
+                        ]
+                    },
+                    {
+                        name: 'Homemade Snacks',
+                        items: [
+                            { name: 'Grilled Sandwich', price: '₹180', description: 'Fresh vegetables and cheese grilled to perfection' },
+                            { name: 'Masala Maggi', price: '₹80', description: 'Spicy instant noodles with vegetables' },
+                            { name: 'Aloo Paratha', price: '₹120', description: 'Stuffed potato flatbread with yogurt' },
+                            { name: 'Samosa (2 pieces)', price: '₹60', description: 'Crispy pastry with spiced potato filling' }
+                        ]
+                    },
+                    {
+                        name: 'Family Combos',
+                        items: [
+                            { name: 'Tea Time Special', price: '₹250', description: 'Tea for 2 with assorted snacks' },
+                            { name: 'Coffee & Cake Combo', price: '₹200', description: 'Any coffee with slice of cake' },
+                            { name: 'Breakfast Platter', price: '₹320', description: 'Eggs, toast, fruits, and coffee' }
+                        ]
+                    }
+                ]
+            },
+            'Midnight Beans': {
+                title: 'Midnight Beans - 24/7 Energy',
+                categories: [
+                    {
+                        name: 'Energy Boosters',
+                        items: [
+                            { name: 'Triple Shot Americano', price: '₹200', description: 'Extra strong coffee for all-nighters' },
+                            { name: 'Red Bull Coffee', price: '₹250', description: 'Coffee mixed with energy drink' },
+                            { name: 'Midnight Mocha', price: '₹220', description: 'Dark chocolate coffee with extra caffeine' },
+                            { name: 'Study Fuel Latte', price: '₹180', description: 'Double espresso with steamed milk' }
+                        ]
+                    },
+                    {
+                        name: 'Late Night Bites',
+                        items: [
+                            { name: 'Cheese Burst Pizza', price: '₹280', description: 'Personal pizza with extra cheese' },
+                            { name: 'Chicken Sandwich', price: '₹200', description: 'Grilled chicken with fresh vegetables' },
+                            { name: 'Maggi Masala', price: '₹90', description: 'Spicy noodles perfect for late nights' },
+                            { name: 'Garlic Bread', price: '₹120', description: 'Crispy bread with garlic butter' }
+                        ]
+                    },
+                    {
+                        name: 'Quick Refreshers',
+                        items: [
+                            { name: 'Iced Green Tea', price: '₹100', description: 'Refreshing green tea with ice' },
+                            { name: 'Fresh Lime Soda', price: '₹80', description: 'Tangy lime with sparkling water' },
+                            { name: 'Chocolate Milkshake', price: '₹150', description: 'Rich chocolate shake with ice cream' }
+                        ]
+                    }
+                ]
+            },
+            'Rooftop Cafe': {
+                title: 'Rooftop Cafe - Sky High Dining',
+                categories: [
+                    {
+                        name: 'Craft Coffees',
+                        items: [
+                            { name: 'Sunset Blend', price: '₹240', description: 'Medium roast perfect for evening views' },
+                            { name: 'City View Cappuccino', price: '₹200', description: 'Classic cappuccino with panoramic views' },
+                            { name: 'Rooftop Special Latte', price: '₹220', description: 'Signature latte with cinnamon art' },
+                            { name: 'Sky High Americano', price: '₹180', description: 'Bold americano with city skyline' }
+                        ]
+                    },
+                    {
+                        name: 'Pet-Friendly Treats',
+                        items: [
+                            { name: 'Dog Biscuits (for pets)', price: '₹50', description: 'Healthy treats for your furry friends' },
+                            { name: 'Pet Water Bowl', price: 'Free', description: 'Fresh water for pets' },
+                            { name: 'Pup Cup (whipped cream)', price: '₹30', description: 'Small cup of whipped cream for dogs' }
+                        ]
+                    },
+                    {
+                        name: 'Rooftop Specials',
+                        items: [
+                            { name: 'BBQ Chicken Wings', price: '₹320', description: 'Grilled wings with spicy sauce' },
+                            { name: 'Paneer Tikka', price: '₹280', description: 'Marinated cottage cheese with mint chutney' },
+                            { name: 'Nachos Supreme', price: '₹250', description: 'Loaded nachos with cheese and jalapeños' },
+                            { name: 'Garden Fresh Salad', price: '₹180', description: 'Mixed greens with house dressing' }
+                        ]
+                    }
+                ]
+            },
+            'Artisan Bakery Cafe': {
+                title: 'Artisan Bakery Cafe - Fresh Baked',
+                categories: [
+                    {
+                        name: 'Artisanal Coffee',
+                        items: [
+                            { name: 'Baker\'s Blend', price: '₹160', description: 'Perfect coffee to pair with pastries' },
+                            { name: 'Cortado', price: '₹140', description: 'Equal parts espresso and warm milk' },
+                            { name: 'Pour Over Coffee', price: '₹180', description: 'Hand-brewed single origin coffee' },
+                            { name: 'Flat White', price: '₹170', description: 'Smooth microfoam with double espresso' }
+                        ]
+                    },
+                    {
+                        name: 'Fresh Baked Goods',
+                        items: [
+                            { name: 'Butter Croissant', price: '₹80', description: 'Flaky, buttery French pastry' },
+                            { name: 'Chocolate Danish', price: '₹100', description: 'Sweet pastry with chocolate filling' },
+                            { name: 'Blueberry Muffin', price: '₹90', description: 'Moist muffin with fresh blueberries' },
+                            { name: 'Cinnamon Roll', price: '₹110', description: 'Warm roll with cinnamon and glaze' }
+                        ]
+                    },
+                    {
+                        name: 'Breakfast Specials',
+                        items: [
+                            { name: 'Eggs Benedict', price: '₹280', description: 'Poached eggs on English muffin with hollandaise' },
+                            { name: 'French Toast', price: '₹200', description: 'Thick slices with maple syrup and berries' },
+                            { name: 'Breakfast Bagel', price: '₹180', description: 'Toasted bagel with cream cheese and smoked salmon' },
+                            { name: 'Granola Bowl', price: '₹160', description: 'House-made granola with yogurt and fruits' }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        function openMenu(cafeName) {
+            const modal = document.getElementById('menuModal');
+            const titleElement = document.getElementById('cafeMenuTitle');
+            const contentElement = document.getElementById('menuContent');
+            
+            const menu = cafeMenus[cafeName];
+            if (!menu) return;
+            
+            titleElement.textContent = menu.title;
+            
+            let menuHTML = '';
+            menu.categories.forEach(category => {
+                menuHTML += `
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold text-green-800 mb-4 border-b border-green-200 pb-2">${category.name}</h3>
+                        <div class="space-y-3">
+                `;
+                
+                category.items.forEach(item => {
+                    menuHTML += `
+                        <div class="flex justify-between items-start p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                            <div class="flex-1">
+                                <h4 class="font-medium text-gray-800">${item.name}</h4>
+                                <p class="text-sm text-gray-600 mt-1">${item.description}</p>
+                            </div>
+                            <div class="text-green-800 font-semibold ml-4">${item.price}</div>
+                        </div>
+                    `;
+                });
+                
+                menuHTML += `
+                        </div>
+                    </div>
+                `;
+            });
+            
+            contentElement.innerHTML = menuHTML;
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            const modal = document.getElementById('menuModal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('menuModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeMenu();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeMenu();
+            }
+        });
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('active');
+        });
+        // </CHANGE>
+    </script>
+</body>
+</html>

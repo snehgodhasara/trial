@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us - CafeConnect</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Updated to match homepage styling exactly -->
+  <style>
+      :root {
+          --primary-pink: #f4e6e1;
+          --accent-green: #2d5a3d;
+          --text-dark: #2c2c2c;
+          --text-light: #6b7280;
+          --white: #ffffff;
+      }
+      
+      body {
+          background-color: var(--primary-pink);
+          color: var(--text-dark);
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      }
+      
+      .hero-text {
+          font-size: clamp(2.5rem, 5vw, 4rem);
+          line-height: 1.1;
+          font-weight: 300;
+          letter-spacing: -0.02em;
+      }
+      
+      .btn-primary {
+          background-color: var(--accent-green);
+          color: var(--white);
+          padding: 1rem 2rem;
+          border-radius: 50px;
+          font-weight: 500;
+          transition: all 0.3s ease;
+          border: none;
+          cursor: pointer;
+      }
+      
+      .btn-primary:hover {
+          background-color: #1f3d2a;
+          transform: translateY(-2px);
+      }
+      
+      .btn-secondary {
+          background-color: transparent;
+          color: var(--accent-green);
+          padding: 1rem 2rem;
+          border: 2px solid var(--accent-green);
+          border-radius: 50px;
+          font-weight: 500;
+          transition: all 0.3s ease;
+          cursor: pointer;
+      }
+      
+      .btn-secondary:hover {
+          background-color: var(--accent-green);
+          color: var(--white);
+      }
+      
+      .card {
+          background-color: var(--white);
+          border-radius: 20px;
+          padding: 2rem;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+          transition: transform 0.3s ease;
+      }
+      
+      .card:hover {
+          transform: translateY(-5px);
+      }
+      
+      .nav-link {
+          color: var(--text-dark);
+          text-decoration: none;
+          font-weight: 500;
+          transition: color 0.3s ease;
+      }
+      
+      .nav-link:hover {
+          color: var(--accent-green);
+      }
+      
+      .feature-icon {
+          width: 60px;
+          height: 60px;
+          background-color: var(--accent-green);
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 1.5rem;
+      }
+
+      /* Expandable sections styling */
+      .section-item {
+          background: var(--white);
+          border-radius: 20px;
+          margin-bottom: 1rem;
+          overflow: hidden;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+          transition: all 0.3s ease;
+      }
+      
+      .section-item:hover {
+          transform: translateY(-5px);
+      }
+      
+      .section-header {
+          padding: 2rem;
+          cursor: pointer;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+      }
+      
+      .section-header h3 {
+          font-size: 1.5rem;
+          color: var(--accent-green);
+          font-weight: 600;
+      }
+      
+      .expand-icon {
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          background: var(--accent-green);
+          color: var(--white);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: bold;
+          transition: transform 0.3s ease;
+      }
+      
+      .section-content {
+          padding: 0 2rem;
+          max-height: 0;
+          overflow: hidden;
+          transition: all 0.3s ease;
+      }
+      
+      .section-content.expanded {
+          max-height: 500px;
+          padding: 2rem;
+      }
+      
+      .section-content p {
+          color: var(--text-light);
+          line-height: 1.8;
+          font-size: 1.1rem;
+      }
+
+      /* Team member cards */
+      .team-member {
+          background: var(--white);
+          border-radius: 20px;
+          padding: 2rem;
+          text-align: center;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+          transition: transform 0.3s ease;
+      }
+      
+      .team-member:hover {
+          transform: translateY(-5px);
+      }
+      
+      .member-avatar {
+          width: 80px;
+          height: 80px;
+          border-radius: 50%;
+          background: linear-gradient(135deg, var(--accent-green), #4a7c59);
+          margin: 0 auto 1rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--white);
+          font-size: 1.5rem;
+          font-weight: bold;
+      }
+      
+      .member-name {
+          font-size: 1.2rem;
+          color: var(--accent-green);
+          margin-bottom: 0.5rem;
+          font-weight: 600;
+      }
+      
+      .member-role {
+          color: var(--text-light);
+          font-size: 1rem;
+      }
+      /* Added mobile navigation styles */
+      .mobile-menu {
+          display: none;
+          flex-direction: column;
+          width: 100%;
+          background-color: var(--white);
+          position: absolute;
+          top: 100%;
+          left: 0;
+          padding: 1rem 0;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+          z-index: 10;
+      }
+
+      .mobile-menu.active {
+          display: flex;
+      }
+
+      .mobile-menu a, .mobile-menu button {
+          padding: 0.75rem 1.5rem;
+          text-align: center;
+          width: 100%;
+      }
+      /* </CHANGE> */
+  </style>
+</head>
+<body>
+  <!-- Updated navigation to match homepage exactly -->
+  <nav class="relative flex items-center justify-between p-6 lg:px-12">
+      <div class="flex items-center space-x-3">
+          <div class="relative">
+              <!-- Dark green coffee cup logo matching homepage -->
+              <div class="w-14 h-14 bg-gradient-to-br from-green-800 to-green-900 rounded-2xl flex items-center justify-center shadow-xl border-4 border-white relative overflow-visible">
+                  <div class="relative">
+                      <div class="w-8 h-8 bg-gradient-to-b from-green-700 to-green-800 rounded-b-lg border-2 border-green-600 relative">
+                          <div class="absolute top-1 left-1 right-1 h-4 bg-gradient-to-b from-amber-800 to-amber-900 rounded-t-sm"></div>
+                          <div class="absolute top-0.5 left-1 right-1 h-1.5 bg-gradient-to-b from-amber-100 to-amber-200 rounded-t-sm opacity-80"></div>
+                      </div>
+                      <div class="absolute top-2 -right-2 w-3 h-4 border-2 border-green-700 rounded-r-full bg-transparent"></div>
+                      <div class="absolute -top-2 left-2 w-0.5 h-3 bg-white opacity-60 rounded-full animate-pulse"></div>
+                      <div class="absolute -top-1.5 left-3 w-0.5 h-2 bg-white opacity-40 rounded-full animate-pulse" style="animation-delay: 0.5s;"></div>
+                      <div class="absolute -top-2.5 left-4 w-0.5 h-3 bg-white opacity-50 rounded-full animate-pulse" style="animation-delay: 1s;"></div>
+                  </div>
+                  
+                  <div class="absolute -top-2 -right-2 w-4 h-4 bg-pink-400 rounded-full border-2 border-white shadow-lg animate-pulse"></div>
+                  <div class="absolute -bottom-2 -left-2 w-3 h-3 bg-blue-400 rounded-full border-2 border-white shadow-md"></div>
+                  <div class="absolute top-1/2 -left-3 w-2.5 h-2.5 bg-orange-400 rounded-full border border-white shadow-sm"></div>
+                  
+                  <div class="absolute top-0 right-0 w-6 h-0.5 bg-pink-300 transform rotate-45 origin-left opacity-60"></div>
+                  <div class="absolute bottom-0 left-0 w-5 h-0.5 bg-blue-300 transform -rotate-45 origin-left opacity-60"></div>
+              </div>
+          </div>
+          <span class="text-2xl font-bold text-green-800">CafeConnect</span>
+      </div>
+      
+      <!-- Hamburger menu for mobile </CHANGE> -->
+      <div class="md:hidden">
+          <button id="mobile-menu-button" class="text-gray-700 focus:outline-none">
+              <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+              </svg>
+          </button>
+      </div>
+
+      <div class="hidden md:flex items-center space-x-8">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="cafes.html" class="nav-link">Cafés</a>
+          <a href="about.html" class="nav-link text-green-800">About Us</a>
+          <a href="contact.html" class="nav-link">Contact</a>
+      </div>
+      
+      <div class="hidden md:flex items-center space-x-4">
+          <a href="login.html" class="nav-link">Login</a>
+          <button class="btn-primary">Sign Up</button>
+      </div>
+
+      <!-- Mobile menu content </CHANGE> -->
+      <div id="mobile-menu" class="mobile-menu md:hidden">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="cafes.html" class="nav-link">Cafés</a>
+          <a href="about.html" class="nav-link">About Us</a>
+          <a href="contact.html" class="nav-link">Contact</a>
+          <a href="login.html" class="nav-link">Login</a>
+          <button class="btn-primary mx-4 mt-2" onclick="window.location.href='login.html'">Sign Up</button>
+      </div>
+      <!-- </CHANGE> -->
+  </nav>
+
+  <!-- Updated hero section to match homepage styling -->
+  <section class="px-6 lg:px-12 py-20">
+      <div class="max-w-7xl mx-auto text-center">
+          <h1 class="hero-text text-balance mb-6">
+              Connecting Hearts<br>
+              Through<br>
+              <span class="text-green-800">Coffee</span>
+          </h1>
+          <p class="text-xl text-gray-600 mb-8 leading-relaxed max-w-3xl mx-auto">
+              We believe every great conversation starts with a perfect cup of coffee. 
+              CafeConnect was born from the simple idea that cafés are more than just places 
+              to drink coffee—they're spaces where communities come alive.
+          </p>
+      </div>
+  </section>
+
+  <!-- Updated story section with homepage card styling -->
+  <section class="px-6 lg:px-12 py-20 bg-white">
+      <div class="max-w-7xl mx-auto">
+          <!-- Responsive grid for story section </CHANGE> -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              <div>
+                  <h2 class="text-4xl font-light mb-6 text-green-800">Our Story</h2>
+                  <p class="text-xl text-gray-600 mb-6 leading-relaxed">
+                      Founded in 2023 in the vibrant city of Rajkot, CafeConnect emerged from a shared 
+                      passion for great coffee and meaningful connections. Our founders, avid café enthusiasts, 
+                      noticed how difficult it was to discover hidden gems and secure tables at popular spots.
+                  </p>
+                  <p class="text-xl text-gray-600 leading-relaxed">
+                      What started as a weekend project to map local cafés quickly evolved into a comprehensive 
+                      platform that celebrates café culture while making it accessible to everyone.
+                  </p>
+              </div>
+              
+              <div class="relative">
+                  <div class="card">
+                      <img src="https://i.pinimg.com/1200x/c5/b4/f1/c5b4f1776304b38c7823fa07ce6cba9e.jpg" 
+                           alt="Coffee story illustration" 
+                           class="w-full h-80 object-cover rounded-lg mb-4">
+                      <div class="text-center">
+                          <h3 class="font-semibold text-lg text-green-800">Building Connections</h3>
+                          <p class="text-gray-600">One Cup at a Time</p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <!-- </CHANGE> -->
+      </div>
+  </section>
+
+  <!-- Updated expandable sections with homepage styling -->
+  <section class="px-6 lg:px-12 py-20">
+      <div class="max-w-7xl mx-auto">
+          <div class="text-center mb-16">
+              <h2 class="text-4xl font-light mb-4">What Drives Us</h2>
+              <p class="text-xl text-gray-600">Discover the values and vision behind CafeConnect</p>
+          </div>
+          
+          <!-- Responsive spacing for expandable sections </CHANGE> -->
+          <div class="space-y-4">
+              <div class="section-item">
+                  <div class="section-header" onclick="toggleSection(this)">
+                      <h3>Our Mission</h3>
+                      <div class="expand-icon">+</div>
+                  </div>
+                  <div class="section-content">
+                      <p>To create a seamless bridge between café lovers and the perfect coffee experience. We're dedicated to supporting local café culture in Rajkot while making it easier for people to discover, connect, and create memories in these special spaces.</p>
+                  </div>
+              </div>
+
+              <div class="section-item">
+                  <div class="section-header" onclick="toggleSection(this)">
+                      <h3>What Makes Us Different</h3>
+                      <div class="expand-icon">+</div>
+                  </div>
+                  <div class="section-content">
+                      <p>Unlike generic booking platforms, we specialize exclusively in café experiences. We understand the unique atmosphere each café offers, from cozy corner spots perfect for reading to collaborative tables ideal for business meetings.</p>
+                  </div>
+              </div>
+
+              <div class="section-item">
+                  <div class="section-header" onclick="toggleSection(this)">
+                      <h3>Community Impact</h3>
+                      <div class="expand-icon">+</div>
+                  </div>
+                  <div class="section-content">
+                      <p>We're more than a booking platform—we're community builders. Through CafeConnect, we've helped increase foot traffic to local cafés by 40%, supported over 50 independent coffee shops in Rajkot, and facilitated thousands of meaningful connections.</p>
+                  </div>
+              </div>
+
+              <div class="section-item">
+                  <div class="section-header" onclick="toggleSection(this)">
+                      <h3>Future Vision</h3>
+                      <div class="expand-icon">+</div>
+                  </div>
+                  <div class="section-content">
+                      <p>We envision expanding beyond Rajkot to connect café cultures across Gujarat and eventually all of India. Our roadmap includes café loyalty programs, coffee tasting events, barista workshops, and a marketplace for local coffee roasters.</p>
+                  </div>
+              </div>
+          </div>
+          <!-- </CHANGE> -->
+      </div>
+  </section>
+
+  <!-- Updated team section with homepage card styling -->
+  <section class="px-6 lg:px-12 py-20 bg-white">
+      <div class="max-w-7xl mx-auto">
+          <div class="text-center mb-16">
+              <h2 class="text-4xl font-light mb-4">Meet Our Team</h2>
+              <p class="text-xl text-gray-600">The passionate people behind CafeConnect</p>
+          </div>
+          
+          <!-- Responsive grid for team members </CHANGE> -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+              <div class="team-member">
+                  <div class="member-avatar">A</div>
+                  <div class="member-name">Arjun Patel</div>
+                  <div class="member-role">Founder & CEO</div>
+              </div>
+              <div class="team-member">
+                  <div class="member-avatar">P</div>
+                  <div class="member-name">Priya Shah</div>
+                  <div class="member-role">Head of Operations</div>
+              </div>
+              <div class="team-member">
+                  <div class="member-avatar">R</div>
+                  <div class="member-name">Rohan Mehta</div>
+                  <div class="member-role">Tech Lead</div>
+              </div>
+              <div class="team-member">
+                  <div class="member-avatar">K</div>
+                  <div class="member-name">Kavya Joshi</div>
+                  <div class="member-role">Community Manager</div>
+              </div>
+          </div>
+          <!-- </CHANGE> -->
+      </div>
+  </section>
+
+  <!-- Updated CTA section to match homepage styling -->
+  <section class="px-6 lg:px-12 py-20">
+      <div class="max-w-4xl mx-auto text-center">
+          <div class="card">
+              <h2 class="text-3xl font-light mb-4">Let's Connect Over Coffee</h2>
+              <p class="text-xl text-gray-600 mb-8">Have questions, suggestions, or just want to chat about your favorite café? We'd love to hear from you!</p>
+              <a href="contact.html" class="nav-link"><button class="btn-primary text-lg px-8 py-4">Get In Touch</button></a>
+          </div>
+      </div>
+  </section>
+
+  <!-- Updated footer to match homepage exactly -->
+  <footer class="px-6 lg:px-12 py-12 bg-white">
+      <div class="max-w-7xl mx-auto">
+          <!-- Responsive grid for footer </CHANGE> -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+              <div>
+                  <div class="flex items-center space-x-2 mb-4">
+                      <div class="relative">
+                          <div class="w-10 h-10 bg-gradient-to-br from-green-800 to-green-900 rounded-xl flex items-center justify-center shadow-lg border-2 border-white relative overflow-visible">
+                              <div class="relative">
+                                  <div class="w-6 h-6 bg-gradient-to-b from-green-700 to-green-800 rounded-b-md border border-green-600 relative">
+                                      <div class="absolute top-0.5 left-0.5 right-0.5 h-3 bg-gradient-to-b from-amber-800 to-amber-900 rounded-t-sm"></div>
+                                      <div class="absolute top-0 left-0.5 right-0.5 h-1 bg-gradient-to-b from-amber-100 to-amber-200 rounded-t-sm opacity-80"></div>
+                                  </div>
+                                  <div class="absolute top-1.5 -right-1.5 w-2 h-3 border border-green-700 rounded-r-full bg-transparent"></div>
+                              </div>
+                              <div class="absolute -top-1 -right-1 w-3 h-3 bg-pink-400 rounded-full border border-white"></div>
+                              <div class="absolute -bottom-1 -left-1 w-2 h-2 bg-blue-400 rounded-full border border-white"></div>
+                          </div>
+                      </div>
+                      <span class="text-xl font-bold text-green-800">CafeConnect</span>
+                  </div>
+                  <p class="text-gray-600">Connecting you with the perfect café experience, one reservation at a time.</p>
+              </div>
+              
+              <div>
+                  <h4 class="font-semibold mb-4">Quick Links</h4>
+                  <ul class="space-y-2">
+                      <li><a href="index.html" class="text-gray-600 hover:text-green-800">Home</a></li>
+                      <li><a href="cafes.html" class="text-gray-600 hover:text-green-800">Cafés</a></li>
+                      <li><a href="about.html" class="text-gray-600 hover:text-green-800">About Us</a></li>
+                      <li><a href="contact.html" class="text-gray-600 hover:text-green-800">Contact</a></li>
+                  </ul>
+              </div>
+              
+              <div>
+                  <h4 class="font-semibold mb-4">Support</h4>
+                  <ul class="space-y-2">
+                      <li><a href="#" class="text-gray-600 hover:text-green-800">Help Center</a></li>
+                      <li><a href="#" class="text-gray-600 hover:text-green-800">Terms of Service</a></li>
+                      <li><a href="#" class="text-gray-600 hover:text-green-800">Privacy Policy</a></li>
+                  </ul>
+              </div>
+              
+              <div>
+                  <h4 class="font-semibold mb-4">Connect</h4>
+                  <ul class="space-y-2">
+                      <li><a href="#" class="text-gray-600 hover:text-green-800">Facebook</a></li>
+                      <li><a href="#" class="text-gray-600 hover:text-green-800">Instagram</a></li>
+                      <li><a href="#" class="text-gray-600 hover:text-green-800">Twitter</a></li>
+                  </ul>
+              </div>
+          </div>
+          <!-- </CHANGE> -->
+          
+          <div class="border-t border-gray-200 mt-8 pt-8 text-center">
+              <p class="text-gray-600">&copy; 2025 CafeConnect. All rights reserved.</p>
+          </div>
+      </div>
+  </footer>
+
+  <script>
+      function toggleSection(header) {
+          const content = header.nextElementSibling;
+          const icon = header.querySelector('.expand-icon');
+          
+          if (content.classList.contains('expanded')) {
+              content.classList.remove('expanded');
+              icon.textContent = '+';
+              icon.style.transform = 'rotate(0deg)';
+          } else {
+              // Close all other sections
+              document.querySelectorAll('.section-content.expanded').forEach(section => {
+                  section.classList.remove('expanded');
+              });
+              document.querySelectorAll('.expand-icon').forEach(ic => {
+                  ic.textContent = '+';
+                  ic.style.transform = 'rotate(0deg)';
+              });
+              
+              // Open clicked section
+              content.classList.add('expanded');
+              icon.textContent = '−';
+              icon.style.transform = 'rotate(180deg)';
+          }
+      }
+      document.getElementById('mobile-menu-button').addEventListener('click', function() {
+          const mobileMenu = document.getElementById('mobile-menu');
+          mobileMenu.classList.toggle('active');
+      });
+      // </CHANGE>
+  </script>
+</body>
+</html>
